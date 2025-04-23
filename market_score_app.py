@@ -179,17 +179,17 @@ if st.button("📌 오늘 점수 저장하기"):
     today = dt.datetime.today().strftime("%Y-%m-%d")
     new_row = pd.DataFrame({"날짜": [today], "점수": [score]})
     
-    history_df = pd.read_csv(history_file, encoding='euc-kr')  # ✅ 여기도!
+    history_df = pd.read_csv(history_file)  # ✅ 여기도!
     history_df = history_df[history_df["날짜"] != today]
     updated_df = pd.concat([history_df, new_row], ignore_index=True)
-    updated_df.to_csv(history_file, index=False, encoding='euc-kr')  # ✅ 저장도 맞춰주기
+    updated_df.to_csv(history_file, index=False)  # ✅ 저장도 맞춰주기
 
     st.success("✅ 오늘 점수가 저장되었습니다!")
 
 # 그래프용
 st.subheader("📊 점수 변화 추이")
 if os.path.exists(history_file):
-    history_df = pd.read_csv(history_file, encoding='euc-kr')  # ✅ 여기도!
+    history_df = pd.read_csv(history_file)  # ✅ 여기도!
     history_df["날짜"] = pd.to_datetime(history_df["날짜"])
     history_df = history_df.sort_values("날짜")
     
