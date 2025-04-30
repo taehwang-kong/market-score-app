@@ -209,11 +209,11 @@ if st.button("📌 오늘 점수 저장하기"):
     new_row = pd.DataFrame({"날짜": [today], "점수": [score]})
     history_df = pd.read_csv(history_file, encoding='euc-kr')
     history_df = history_df[history_df["날짜"] != today]
-    pd.concat([history_df, new_row], ignore_index=True).to_csv(history_file, index=False, encoding='euc-kr')
+    pd.concat([history_df, new_row], ignore_index=True).to_csv(history_file, index=False, encoding='utf-8')
     st.success("✅ 오늘 점수가 저장되었습니다!")
 
 if os.path.exists(history_file):
-    history_df = pd.read_csv(history_file, encoding='euc-kr')
+    history_df = pd.read_csv(history_file, encoding='utf-8')
     history_df["날짜"] = pd.to_datetime(history_df["날짜"])
     history_df = history_df.sort_values("날짜")
     st.subheader("📈 점수 변화 추이 (최근)")
