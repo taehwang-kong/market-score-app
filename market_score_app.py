@@ -207,7 +207,7 @@ st.markdown(
 if st.button("📌 오늘 점수 저장하기"):
     today = dt.datetime.today().strftime("%Y-%m-%d")
     new_row = pd.DataFrame({"날짜": [today], "점수": [score]})
-    history_df = pd.read_csv(history_file, encoding='euc-kr')
+    history_df = pd.read_csv(history_file, encoding='utf-8')
     history_df = history_df[history_df["날짜"] != today]
     pd.concat([history_df, new_row], ignore_index=True).to_csv(history_file, index=False, encoding='utf-8')
     st.success("✅ 오늘 점수가 저장되었습니다!")
