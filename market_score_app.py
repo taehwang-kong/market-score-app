@@ -43,12 +43,21 @@ def get_latest_fred_values():
     return {"spread": spread, "claims": icsa, "hy_spread": hy_spread}
 
 def get_latest_yfinance_values():
-    sp500 = yf.Ticker("^GSPC")
-    sp500_hist = sp500.history(period="1y")
-    current_price = sp500_hist["Close"].iloc[-1]
-    ma200 = sp500_hist["Close"].rolling(window=200).mean().iloc[-1]
-    vix = yf.Ticker("^VIX").history(period="5d")["Close"].iloc[-1]
-    return {"current_price": current_price, "ma200": ma200, "vix": vix}
+    try:
+        sp500 = yf.Ticker("^GSPC")
+        sp500_hist = sp500.history(period="1y")
+        current_price = sp500_hist["Close"].iloc[-1]
+        ma200 = sp500_hist["Close"].rolling(window=200).mean().iloc[-1]
+
+        vix = yf.Ticker("^VIX")
+        vix_hist = vix.history(period="5d")
+        vix_latest = vix_hist["Close"].iloc[-1]
+
+        return {"current_price": current_price, "ma200": ma200, "vix": vix_latest}
+    except Exception as e:
+        print(f"⚠️ yfinance 데이터 수집 실패: {e}")
+        return {"current_price": 4500.0, "ma200": 4400.0, "vix": 20.0}  # fallback 값
+
 
 def get_cape_ratio():
     url = "https://www.multpl.com/shiller-pe/"
